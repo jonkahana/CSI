@@ -245,18 +245,17 @@ class transform_NumpytoPIL(torch.nn.Module):
     def __call__(self, img: torch.Tensor):
         """
         Args:
-            img (np.nndarry): numpy image to be converted to PIL.Image
+            img (torch.Tensor): Tensor image to be converted to numpy.array
         Returns:
             img (numpy.array): numpy image.
         """
         if np.max(img) <= 1:
             img = (img * 255.).astype(np.uint8)
-        print(img.shape)
-        if img.shape[0] == 3:
+        if img.shape[0] in [1, 3]:
             img = img.transpose(1, 2, 0)
-        print(img.shape)
+        if img.shape[-1] == 1:
+            img = np.concatenate([img] * 3, axis=-1)
         return PIL.Image.fromarray(img)
-
 
 def load_np_data(data_name):
     data = dict(np.load(join(preprocessed_dir, data_name + '.npz'), allow_pickle=True))
