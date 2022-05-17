@@ -10,6 +10,5 @@ python -u train.py \
 --model=resnet18 \
 --mode=sup_simclr_CSI \
 --shift_trans_type=rotation \
---batch_size=2 \
---one_class_idx=0 \
+--batch_size=32 \
 
