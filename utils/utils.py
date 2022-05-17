@@ -24,16 +24,17 @@ class Logger(object):
 
             logdir = self._make_dir(fn, dataset)
             os.makedirs(logdir, exist_ok=True)
+            print(f'logdir: {logdir}')
             # if not os.path.exists(logdir):
             #     os.mkdir(logdir)
 
-            if len(os.listdir(logdir)) != 0 and ask:
-                ans = input("log_dir is not empty. All data inside log_dir will be deleted. "
-                            "Will you proceed [y/N]? ")
-                if ans in ['y', 'Y']:
-                    shutil.rmtree(logdir)
-                else:
-                    exit(1)
+            # if len(os.listdir(logdir)) != 0 and ask:
+            #     ans = input("log_dir is not empty. All data inside log_dir will be deleted. "
+            #                 "Will you proceed [y/N]? ")
+            #     if ans in ['y', 'Y']:
+            #         shutil.rmtree(logdir)
+            #     else:
+            #         exit(1)
 
             self.set_dir(logdir)
 
@@ -44,8 +45,8 @@ class Logger(object):
 
     def set_dir(self, logdir, log_fn='log.txt'):
         self.logdir = logdir
-        if not os.path.exists(logdir):
-            os.mkdir(logdir)
+        # if not os.path.exists(logdir):
+        #     os.mkdir(logdir)
         self.writer = SummaryWriter(logdir)
         self.log_file = open(os.path.join(logdir, log_fn), 'a')
 
