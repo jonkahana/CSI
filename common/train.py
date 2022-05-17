@@ -26,7 +26,7 @@ if P.n_gpus > 1:
     import torch.distributed as dist
     from torch.utils.data.distributed import DistributedSampler
 
-    P.multi_gpu = True
+    P.multi_gpu = False
     torch.distributed.init_process_group(
         'nccl',
         init_method='env://',

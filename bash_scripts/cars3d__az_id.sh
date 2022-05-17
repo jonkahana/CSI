@@ -10,7 +10,7 @@ python -u train.py \
 --model=resnet50 \
 --mode=simclr_CSI \
 --shift_trans_type=rotation \
---batch_size=32 \
+--batch_size=2 \
 --one_class_idx=0 \
 
 
