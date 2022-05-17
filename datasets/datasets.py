@@ -303,7 +303,7 @@ def get_npz_dataset(dataset, test_only=False):
     train_set = Images_Data(train_np_data, transform=train_transform)
     test_set = Images_Data(test_np_data, transform=test_transform)
 
-    image_size = (224, 224, 3)
+    image_size = None # (224, 224, 3)
     n_classes = 7
 
     # if dataset == 'cifar10':
