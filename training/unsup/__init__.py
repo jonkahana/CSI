@@ -1,5 +1,5 @@
 def setup(mode, P):
-    fname = f'{P.dataset}_{P.model}_unsup_{mode}'
+    fname = f'unsup_{mode}_{P.dataset}_{P.model}'
 
     if mode == 'simclr':
         from .simclr import train

@@ -11,7 +11,7 @@ else:
     from training.unsup import setup
 train, fname = setup(P.mode, P)
 
-logger = Logger(fname, ask=not resume, local_rank=P.local_rank)
+logger = Logger(fname, dataset=P.dataset, ask=not resume, local_rank=P.local_rank)
 logger.log(P)
 logger.log(model)
 

@@ -10,19 +10,22 @@ import torch
 from matplotlib import pyplot as plt
 from tensorboardX import SummaryWriter
 
+exps_dir = '/cs/labs/yedid/jonkahana/projects/Red_PANDA/cache/models'
+
 
 class Logger(object):
     """Reference: https://gist.github.com/gyglim/1f8dfb1b5c82627ae3efcfbbadb9f514"""
 
-    def __init__(self, fn, ask=True, local_rank=0):
+    def __init__(self, fn, dataset, ask=True, local_rank=0):
         self.local_rank = local_rank
         if self.local_rank == 0:
-            if not os.path.exists("./logs/"):
-                os.mkdir("./logs/")
+            # if not os.path.exists("./logs/"):
+            #     os.mkdir("./logs/")
 
-            logdir = self._make_dir(fn)
-            if not os.path.exists(logdir):
-                os.mkdir(logdir)
+            logdir = self._make_dir(fn, dataset)
+            os.makedirs(logdir, exist_ok=True)
+            # if not os.path.exists(logdir):
+            #     os.mkdir(logdir)
 
             if len(os.listdir(logdir)) != 0 and ask:
                 ans = input("log_dir is not empty. All data inside log_dir will be deleted. "
@@ -34,9 +37,9 @@ class Logger(object):
 
             self.set_dir(logdir)
 
-    def _make_dir(self, fn):
-        today = datetime.today().strftime("%y%m%d")
-        logdir = 'logs/' + fn
+    def _make_dir(self, fn, dataset):
+        # today = datetime.today().strftime("%y%m%d")
+        logdir = os.path.join(exps_dir, dataset, fn)
         return logdir
 
     def set_dir(self, logdir, log_fn='log.txt'):

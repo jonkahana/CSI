@@ -1,5 +1,5 @@
 def setup(mode, P):
-    fname = f'{P.dataset}_{P.model}_{mode}'
+    fname = f'{mode}_{P.dataset}_{P.model}'
 
     if mode == 'sup_linear':
         from .sup_linear import train

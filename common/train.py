@@ -8,7 +8,7 @@ from torch.utils.data import DataLoader
 
 from common.common import parse_args
 import models.classifier as C
-from datasets import get_dataset, get_superclass_list, get_subclass_dataset
+from datasets import get_dataset, get_superclass_list, get_subclass_dataset, get_npz_dataset
 from utils.utils import load_checkpoint
 
 P = parse_args()
@@ -40,7 +40,8 @@ else:
 P.ood_layer = P.ood_layer[0]
 
 ### Initialize dataset ###
-train_set, test_set, image_size, n_classes = get_dataset(P, dataset=P.dataset)
+# train_set, test_set, image_size, n_classes = get_dataset(P, dataset=P.dataset)
+train_set, test_set, image_size, n_classes = get_npz_dataset(dataset=P.dataset)
 P.image_size = image_size
 P.n_classes = n_classes
 

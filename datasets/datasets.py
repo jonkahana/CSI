@@ -1,14 +1,17 @@
 import os
+from os.path import join
 
 import numpy as np
 import torch
+from torch.utils.data import Dataset, DataLoader
 from torch.utils.data.dataset import Subset
 from torchvision import datasets, transforms
-
+import PIL
 from utils.utils import set_random_seed
 
 DATA_PATH = '~/data/'
 IMAGENET_PATH = '~/data/ImageNet'
+preprocessed_dir = '/cs/labs/yedid/jonkahana/projects/Red_PANDA/cache/preprocess'
 
 
 CIFAR10_SUPERCLASS = list(range(10))  # one class
@@ -227,6 +230,92 @@ def get_dataset(P, dataset, test_only=False, image_size=None, download=False, ev
 
     else:
         raise NotImplementedError()
+
+    if test_only:
+        return test_set
+    else:
+        return train_set, test_set, image_size, n_classes
+
+
+class transform_NumpytoPIL(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+
+    def __call__(self, img: torch.Tensor):
+        """
+        Args:
+            img (np.nndarry): numpy image to be converted to PIL.Image
+        Returns:
+            img (numpy.array): numpy image.
+        """
+        if np.max(img) <= 1:
+            img = (img * 255.).astype(np.uint8)
+        if img.shape[0] == 3:
+            img = img.transpose(1, 2, 0)
+        return PIL.Image.fromarray(img)
+
+
+def load_np_data(data_name):
+    data = dict(np.load(join(preprocessed_dir, data_name + '.npz'), allow_pickle=True))
+    data['n_classes'] = len(np.unique(data['classes']))
+    imgs = data['imgs'].astype(np.float32)
+    imgs = imgs / 255.0
+    data['imgs'] = imgs
+    return data
+
+
+class Images_Data(Dataset):
+
+    def __init__(self, data, transform=transforms.ToTensor()):
+        self.data = data['imgs']
+        self.targets = data['anom_label']
+        self.transform = transform
+
+    def __len__(self):
+        return len(self.labels)
+
+    def __getitem__(self, index):
+        return self.transform(self.data[index]), torch.tensor(int(self.targets[index]))
+
+
+
+def get_npz_dataset(dataset, test_only=False):
+
+    train_transform = transforms.Compose([
+        transform_NumpytoPIL(),
+        transforms.Resize(256),
+        transforms.RandomResizedCrop(224),
+        transforms.RandomHorizontalFlip(),
+        transforms.ToTensor(),
+    ])
+    test_transform = transforms.Compose([
+        transform_NumpytoPIL(),
+        transforms.Resize(256),
+        transforms.CenterCrop(224),
+        transforms.ToTensor(),
+    ])
+
+    train_np_data = load_np_data(join(preprocessed_dir, dataset))
+    test_np_data = load_np_data(join(preprocessed_dir, dataset.replace('train', 'test')))
+    test_np_data['anom_label'] = (test_np_data['anom_label'] == 1).astype(int)
+
+    train_set = Images_Data(train_np_data, transform=train_transform)
+    test_set = Images_Data(test_np_data, transform=test_transform)
+
+    image_size = (224, 224, 3)
+    n_classes = 7
+
+    # if dataset == 'cifar10':
+    #     image_size = (32, 32, 3)
+    #     n_classes = 10
+    #     train_set = datasets.CIFAR10(DATA_PATH, train=True, download=download, transform=train_transform)
+    #     test_set = datasets.CIFAR10(DATA_PATH, train=False, download=download, transform=test_transform)
+    # elif dataset == 'caltech_256':
+    #     assert test_only and image_size is not None
+    #     test_dir = os.path.join(DATA_PATH, 'caltech-256')
+    #     test_set = datasets.ImageFolder(test_dir, transform=test_transform)
+    #     test_set = get_subset_with_len(test_set, length=3000, shuffle=True)
 
     if test_only:
         return test_set
