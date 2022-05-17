@@ -11,4 +11,5 @@ python -u train.py \
 --mode=simclr_CSI \
 --shift_trans_type=rotation \
 --batch_size=32 \
+--original-datasets=$True \
 --one_class_idx=0 \

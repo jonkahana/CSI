@@ -40,8 +40,10 @@ else:
 P.ood_layer = P.ood_layer[0]
 
 ### Initialize dataset ###
-train_set, test_set, image_size, n_classes = get_dataset(P, dataset=P.dataset)
-# train_set, test_set, image_size, n_classes = get_npz_dataset(dataset=P.dataset)
+if P.original_datasets:
+    train_set, test_set, image_size, n_classes = get_dataset(P, dataset=P.dataset)
+else:
+    train_set, test_set, image_size, n_classes = get_npz_dataset(dataset=P.dataset)
 P.image_size = image_size
 P.n_classes = n_classes
 
