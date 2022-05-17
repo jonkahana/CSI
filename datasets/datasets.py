@@ -273,7 +273,7 @@ class Images_Data(Dataset):
         self.transform = transform
 
     def __len__(self):
-        return len(self.labels)
+        return len(self.targets)
 
     def __getitem__(self, index):
         return self.transform(self.data[index]), torch.tensor(int(self.targets[index]))
