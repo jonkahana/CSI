@@ -282,17 +282,29 @@ class Images_Data(Dataset):
 
 def get_npz_dataset(dataset, test_only=False):
 
+    # train_transform = transforms.Compose([
+    #     transform_NumpytoPIL(),
+    #     transforms.Resize(256),
+    #     transforms.RandomResizedCrop(224),
+    #     transforms.RandomHorizontalFlip(),
+    #     transforms.ToTensor(),
+    # ])
+    # test_transform = transforms.Compose([
+    #     transform_NumpytoPIL(),
+    #     transforms.Resize(256),
+    #     transforms.CenterCrop(224),
+    #     transforms.ToTensor(),
+    # ])
+
     train_transform = transforms.Compose([
         transform_NumpytoPIL(),
-        transforms.Resize(256),
-        transforms.RandomResizedCrop(224),
+        transforms.Resize((64, 64)),
         transforms.RandomHorizontalFlip(),
         transforms.ToTensor(),
     ])
     test_transform = transforms.Compose([
         transform_NumpytoPIL(),
-        transforms.Resize(256),
-        transforms.CenterCrop(224),
+        transforms.Resize((64, 64)),
         transforms.ToTensor(),
     ])
 
