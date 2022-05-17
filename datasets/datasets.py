@@ -331,7 +331,8 @@ def get_superclass_list(dataset):
     elif dataset == 'imagenet':
         return IMAGENET_SUPERCLASS
     else:
-        raise NotImplementedError()
+        return [0,1]
+        # raise NotImplementedError()
 
 
 def get_subclass_dataset(dataset, classes):

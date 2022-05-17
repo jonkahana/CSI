@@ -5,7 +5,7 @@ True='True'
 dataset=cars3d__az_id__train
 
 
-python -u -m torch.distributed.launch --nproc_per_node=4 train.py \
+python -u train.py \
 --dataset=$dataset \
 --model=resnet50 \
 --mode=simclr_CSI \
