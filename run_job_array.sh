@@ -7,7 +7,7 @@
 #SBATCH --output=slurm_trash/job_%A_%a
 #SBATCH --mem=20g
 #SBATCH --time=7-0
-#SBATCH --gres=gpu:1,vmem:10g
+#SBATCH --gres=gpu:1,vmem:20g
 
 logs_dir="/cs/labs/yedid/jonkahana/external/CSI/logfiles"
 
