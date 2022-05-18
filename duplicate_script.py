@@ -8,7 +8,7 @@ from copy import deepcopy
 project_path = '/Users/jonatankahana/Desktop/jonathan/projects/Red_PANDA/CSI'
 
 files_to_duplicate = [
-    'bash_scripts'
+    'bash_scripts/eval'
 ]
 is_folders = True
 

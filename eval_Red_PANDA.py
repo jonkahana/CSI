@@ -96,7 +96,8 @@ print(np.unique(test_targets))
 anom_auc, pseudo_auc, anom_auc_wrt_psuedo, psuedo_vs_normal_auc = Red_PANDA_get_score(test_scores, test_targets)
 results_df = pd.DataFrame(np.zeros((1, 4)),
                           index=['ours'],
-                          columns=['anom_auc', 'pseudo_auc', 'anom_auc_wrt_psuedo', 'psuedo_vs_normal_auc'])
+                          columns=['anom_auc', 'pseudo_auc',
+                                   'anom_auc_wrt_psuedo', 'psuedo_vs_normal_auc'])
 df_row = {'anom_auc': anom_auc, 'pseudo_auc': pseudo_auc,
           'anom_auc_wrt_psuedo': anom_auc_wrt_psuedo, 'psuedo_vs_normal_auc': psuedo_vs_normal_auc}
 for k in df_row.keys():
