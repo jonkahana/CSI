@@ -78,7 +78,7 @@ def Red_PANDA_get_score(test_scores, test_labels):
     ### avg. consistency
     # todo: implement
 
-    if P.eval_psuedo:
+    if not P.eval_psuedo:
         scores_out = f"FIXED || ROC-AUC: {anom_auc:.3f}"
     else:
         scores_out = f"FIXED || ROC-AUC: {anom_auc:.3f} || Pseudo Anom AUC {pseudo_auc:.3f} || " \
