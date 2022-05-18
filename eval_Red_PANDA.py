@@ -79,9 +79,9 @@ def Red_PANDA_get_score(test_scores, test_labels):
     # todo: implement
 
     if P.eval_psuedo:
-        scores_out = f"ROC-AUC: {anom_auc:.3f}"
+        scores_out = f"FIXED || ROC-AUC: {anom_auc:.3f}"
     else:
-        scores_out = f"ROC-AUC: {anom_auc:.3f} || Pseudo Anom AUC {pseudo_auc:.3f} || " \
+        scores_out = f"FIXED || ROC-AUC: {anom_auc:.3f} || Pseudo Anom AUC {pseudo_auc:.3f} || " \
                      f"|| Pseudo vs. Normal AUC {pseudo_only_auc:.3f} || Anom w.r.t Pseudo AUC {anom_auc_wrt_psuedo:.3F}"
     print(scores_out)
 
