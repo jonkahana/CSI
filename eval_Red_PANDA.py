@@ -65,6 +65,8 @@ def Red_PANDA_get_score(test_scores, test_labels):
         anom_wrt_psuedo_ROC_lbls[np.where(anom_and_pseudo_test_labels == 1)[0]] = 1
 
         anom_auc_wrt_psuedo = roc_auc_score(anom_wrt_psuedo_ROC_lbls, scores_anom_and_pseudo)
+    else:
+        pseudo_auc, anom_auc_wrt_psuedo, pseudo_only_auc = -1., -1., -1.
 
     #### anom scoring
     anom_test_inds = np.where(test_labels == 1)[0]
