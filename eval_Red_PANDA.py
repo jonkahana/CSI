@@ -86,6 +86,8 @@ with torch.no_grad():
                                                    train_loader=train_loader,
                                                    simclr_aug=simclr_aug)
 print(test_targets)
+print(test_scores.shape)
+print(len(test_targets))
 
 anom_auc, pseudo_auc, anom_auc_wrt_psuedo, psuedo_vs_normal_auc = Red_PANDA_get_score(test_scores, test_targets)
 results_df = pd.DataFrame(np.zeros((1, 4)),
