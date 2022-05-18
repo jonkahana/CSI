@@ -295,12 +295,14 @@ def get_npz_dataset(dataset, test_only=False, is_test=False, img_size=False):
         ])
     else:
         train_transform = transforms.Compose([
+            transform_NumpytoPIL(),
             transforms.Resize(256),
             transforms.RandomResizedCrop(img_size),
             transforms.RandomHorizontalFlip(),
             transforms.ToTensor(),
         ])
         test_transform = transforms.Compose([
+            transform_NumpytoPIL(),
             transforms.Resize(256),
             transforms.CenterCrop(img_size),
             transforms.ToTensor(),
