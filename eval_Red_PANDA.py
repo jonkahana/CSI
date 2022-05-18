@@ -85,7 +85,6 @@ with torch.no_grad():
     test_scores, test_targets = eval_ood_detection(P, model, test_loader,
                                                    train_loader=train_loader,
                                                    simclr_aug=simclr_aug)
-    test_scores = test_scores.numpy()
     test_targets = np.array(test_targets)
 
 print(test_scores)
