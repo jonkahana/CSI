@@ -281,7 +281,7 @@ class Images_Data(Dataset):
 
 
 
-def get_npz_dataset(dataset, test_only=False):
+def get_npz_dataset(dataset, test_only=False, is_test=False):
 
     # train_transform = transforms.Compose([
     #     transform_NumpytoPIL(),
@@ -311,7 +311,8 @@ def get_npz_dataset(dataset, test_only=False):
 
     train_np_data = load_np_data(join(preprocessed_dir, dataset))
     test_np_data = load_np_data(join(preprocessed_dir, dataset.replace('train', 'test')))
-    test_np_data['anom_label'] = (test_np_data['anom_label'] == 1).astype(int)
+    if not is_test:
+        test_np_data['anom_label'] = (test_np_data['anom_label'] == 1).astype(int)
 
     train_set = Images_Data(train_np_data, transform=train_transform)
     test_set = Images_Data(test_np_data, transform=test_transform)
