@@ -88,7 +88,6 @@ with torch.no_grad():
     test_scores = test_scores.numpy()
     test_targets = np.array(test_targets)
 
-print(test_targets)
 print(test_scores.shape)
 print(len(test_targets))
 
