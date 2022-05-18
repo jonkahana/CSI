@@ -9,13 +9,14 @@ def parse_args(default=False):
     parser.add_argument('--dataset', help='Dataset',
                         # choices=['cifar10', 'cifar100', 'imagenet'],
                         type=str)
+    parser.add_argument('--img-size', type=int, default=224)
     parser.add_argument('--original-datasets',
                         type=bool, default=False)
     parser.add_argument('--one_class_idx', help='None: multi-class, Not None: one-class',
                         default=None, type=int)
     parser.add_argument('--model', help='Model',
                         # choices=['resnet18', 'resnet18_imagenet'],
-                        type=str)
+                        type=str, default='resnet18_imagenet')
     parser.add_argument('--mode', help='Training mode',
                         default='simclr', type=str)
     parser.add_argument('--simclr_dim', help='Dimension of simclr layer',

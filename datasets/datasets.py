@@ -13,7 +13,6 @@ DATA_PATH = '~/data/'
 IMAGENET_PATH = '~/data/ImageNet'
 preprocessed_dir = '/cs/labs/yedid/jonkahana/projects/Red_PANDA/cache/preprocess'
 
-
 CIFAR10_SUPERCLASS = list(range(10))  # one class
 IMAGENET_SUPERCLASS = list(range(30))  # one class
 
@@ -107,7 +106,6 @@ def get_subset_with_len(dataset, length, shuffle=False):
 
 
 def get_transform_imagenet():
-
     train_transform = transforms.Compose([
         transforms.Resize(256),
         transforms.RandomResizedCrop(224),
@@ -257,6 +255,7 @@ class transform_NumpytoPIL(torch.nn.Module):
             img = np.concatenate([img] * 3, axis=-1)
         return PIL.Image.fromarray(img)
 
+
 def load_np_data(data_name):
     data = dict(np.load(join(preprocessed_dir, data_name + '.npz'), allow_pickle=True))
     data['n_classes'] = len(np.unique(data['classes']))
@@ -280,34 +279,32 @@ class Images_Data(Dataset):
         return self.transform(self.data[index]), torch.tensor(int(self.targets[index]))
 
 
+def get_npz_dataset(dataset, test_only=False, is_test=False, img_size=False):
 
-def get_npz_dataset(dataset, test_only=False, is_test=False):
-
-    # train_transform = transforms.Compose([
-    #     transform_NumpytoPIL(),
-    #     transforms.Resize(256),
-    #     transforms.RandomResizedCrop(224),
-    #     transforms.RandomHorizontalFlip(),
-    #     transforms.ToTensor(),
-    # ])
-    # test_transform = transforms.Compose([
-    #     transform_NumpytoPIL(),
-    #     transforms.Resize(256),
-    #     transforms.CenterCrop(224),
-    #     transforms.ToTensor(),
-    # ])
-
-    train_transform = transforms.Compose([
-        transform_NumpytoPIL(),
-        transforms.Resize((64, 64)),
-        transforms.RandomHorizontalFlip(),
-        transforms.ToTensor(),
-    ])
-    test_transform = transforms.Compose([
-        transform_NumpytoPIL(),
-        transforms.Resize((64, 64)),
-        transforms.ToTensor(),
-    ])
+    if img_size != 32:
+        train_transform = transforms.Compose([
+            transform_NumpytoPIL(),
+            transforms.Resize((img_size, img_size)),
+            transforms.RandomHorizontalFlip(),
+            transforms.ToTensor(),
+        ])
+        test_transform = transforms.Compose([
+            transform_NumpytoPIL(),
+            transforms.Resize((img_size, img_size)),
+            transforms.ToTensor(),
+        ])
+    else:
+        train_transform = transforms.Compose([
+            transforms.Resize(256),
+            transforms.RandomResizedCrop(img_size),
+            transforms.RandomHorizontalFlip(),
+            transforms.ToTensor(),
+        ])
+        test_transform = transforms.Compose([
+            transforms.Resize(256),
+            transforms.CenterCrop(img_size),
+            transforms.ToTensor(),
+        ])
 
     train_np_data = load_np_data(join(preprocessed_dir, dataset))
     test_np_data = load_np_data(join(preprocessed_dir, dataset.replace('train', 'test')))
@@ -317,7 +314,7 @@ def get_npz_dataset(dataset, test_only=False, is_test=False):
     train_set = Images_Data(train_np_data, transform=train_transform)
     test_set = Images_Data(test_np_data, transform=test_transform)
 
-    image_size = None # (224, 224, 3)
+    image_size = None  # (224, 224, 3)
     n_classes = 7
 
     # if dataset == 'cifar10':
@@ -345,7 +342,7 @@ def get_superclass_list(dataset):
     elif dataset == 'imagenet':
         return IMAGENET_SUPERCLASS
     else:
-        return [0,1]
+        return [0, 1]
         # raise NotImplementedError()
 
 
@@ -363,7 +360,6 @@ def get_subclass_dataset(dataset, classes):
 
 
 def get_simclr_eval_transform_imagenet(sample_num, resize_factor, resize_fix):
-
     resize_scale = (resize_factor, 1.0)  # resize scaling factor
     if resize_fix:  # if resize_fix is True, use same scale
         resize_scale = (resize_factor, resize_factor)
@@ -384,5 +380,3 @@ def get_simclr_eval_transform_imagenet(sample_num, resize_factor, resize_fix):
     transform = MultiDataTransformList(transform, clean_trasform, sample_num)
 
     return transform, transform
-
-
