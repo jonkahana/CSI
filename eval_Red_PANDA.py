@@ -113,5 +113,5 @@ for k in df_row.keys():
     results_df.loc['ours', k] = df_row[k]
 
 os.makedirs(os.path.join(model_dir, 'vanilla'), exist_ok=True)
-results_df.to_csv(os.path.join(model_dir, 'vanilla', 'fixed_auc_results.csv'))
+results_df.to_csv(os.path.join(model_dir, 'vanilla', 'auc_results.csv'))
 
