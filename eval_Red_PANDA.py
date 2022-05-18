@@ -93,6 +93,7 @@ with torch.no_grad():
                                                    train_loader=train_loader,
                                                    simclr_aug=simclr_aug)
     test_targets = np.array(test_targets)
+    test_scores *= -1.
     # test_scores = np.random.uniform(0, 1, size=(test_scores.shape[0])) #todo remove
 
 print(test_scores)
