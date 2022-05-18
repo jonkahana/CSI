@@ -2,7 +2,7 @@
 
 False=''
 True='True'
-dataset=cars3d__az_id__train
+dataset=e2s_very_easy__train
 
 
 python -u train.py \

@@ -2,7 +2,7 @@
 
 False=''
 True='True'
-dataset=cars3d__az_id__train
+dataset=edges2shoes_x64__domain_vs_shoe_type__train
 
 
 python -u train.py \

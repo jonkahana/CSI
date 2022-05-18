@@ -13,3 +13,16 @@ python -u train.py \
 --shift_trans_type=rotation \
 --batch_size=32 \
 --one_class_idx=0 \
+
+
+python -u eval_Red_PANDA.py \
+--mode ood_pre \
+--dataset=$dataset \
+--model=resnet18 \
+--img-size=32 \
+--ood_score=CSI \
+--shift_trans_type=rotation \
+--print_score \
+--ood_samples=10 \
+--resize_factor=0.54 \
+--resize_fix \

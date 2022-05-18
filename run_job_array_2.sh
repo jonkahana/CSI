@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-#SBATCH --job-name=CSI_32
+#SBATCH --job-name=CSI_224
 #SBATCH --exclude=firth-02,firth-01
 #SBATCH --cpus-per-task=4
 #SBATCH --array=1-5%5
@@ -12,7 +12,7 @@
 logs_dir="/cs/labs/yedid/jonkahana/external/CSI/logfiles"
 
 files_dir="/cs/labs/yedid/jonkahana/external/CSI"
-files_dir=${files_dir}/bash_scripts/train_32
+files_dir=${files_dir}/bash_scripts/train_224
 
 files_to_run=(`ls ${files_dir}`)
 

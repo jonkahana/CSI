@@ -8,7 +8,8 @@ from copy import deepcopy
 project_path = '/Users/jonatankahana/Desktop/jonathan/projects/Red_PANDA/CSI'
 
 files_to_duplicate = [
-    'bash_scripts/training'
+    'bash_scripts/train_224',
+    'bash_scripts/train_32'
 ]
 is_folders = True
 
@@ -20,8 +21,7 @@ all_alias_keys = ['cars3d__az_id']
 # all_aliases = [["celeba__short", "celeba__glass_prot__short", "celeba", "celeba__glass_prot"]]
 # all_aliases = [["edges2shoes_x64__domain_vs_shoe_type", "edges2shoes_x64__domain_vs_shoe_type_short"]]
 
-all_aliases = [["edges2shoes_x64__domain_vs_gender_short", "edges2shoes_x64__domain_vs_gender",
-                "cars3d__az_id", "smallnorb__az_id", "edges2shoes_x64__domain_vs_shoe_type_short",
+all_aliases = [["cars3d__az_id", "smallnorb__az_id", "edges2shoes_x64__domain_vs_shoe_type_short",
                 "edges2shoes_x64__domain_vs_shoe_type", "e2s_very_easy"]]
 # all_aliases = [["edges2shoes_x64__domain_vs_shoe_type", "edges2shoes_x64__domain_vs_shoe_type_short",
 #                 "rafd_full_0__angles_id", "rafd_full_1__angles_id", "rafd_full_2__angles_id", "rafd_full_3__angles_id",
