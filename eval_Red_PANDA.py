@@ -89,7 +89,7 @@ with torch.no_grad():
     test_targets = np.array(test_targets)
 
 print(test_scores.shape)
-print(len(test_targets))
+print(test_targets.shape)
 
 anom_auc, pseudo_auc, anom_auc_wrt_psuedo, psuedo_vs_normal_auc = Red_PANDA_get_score(test_scores, test_targets)
 results_df = pd.DataFrame(np.zeros((1, 4)),
