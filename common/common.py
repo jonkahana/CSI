@@ -10,6 +10,7 @@ def parse_args(default=False):
                         # choices=['cifar10', 'cifar100', 'imagenet'],
                         type=str)
     parser.add_argument('--img-size', type=int, default=224)
+    parser.add_argument('--eval-psuedo', type=bool, default=True)
     parser.add_argument('--original-datasets',
                         type=bool, default=False)
     parser.add_argument('--one_class_idx', help='None: multi-class, Not None: one-class',

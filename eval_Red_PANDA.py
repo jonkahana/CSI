@@ -39,30 +39,32 @@ def Red_PANDA_knn_inds(train_set, test_set, n_neighbours=5):
 
 
 def Red_PANDA_get_score(test_scores, test_labels):
-    #### pseudo_anom scoring
-    pseudo_anom_test_inds = np.where(test_labels == 2)[0]
-    pseudo_anom_test_lbls = np.zeros(len(test_labels))
-    pseudo_anom_test_lbls[pseudo_anom_test_inds] = 1
 
-    pseudo_auc = roc_auc_score(pseudo_anom_test_lbls, test_scores)
+    if P.eval_psuedo:
+        #### pseudo_anom scoring
+        pseudo_anom_test_inds = np.where(test_labels == 2)[0]
+        pseudo_anom_test_lbls = np.zeros(len(test_labels))
+        pseudo_anom_test_lbls[pseudo_anom_test_inds] = 1
 
-    #### pseudo_anom only scoring
-    no_anom_test_inds = np.where(test_labels != 1)[0]
-    no_anom_test_labels = deepcopy(test_labels[no_anom_test_inds])
-    pseudo_only_anom_test_inds = np.where(no_anom_test_labels == 2)[0]
-    pseudo_only_anom_test_lbls = np.zeros(len(no_anom_test_labels))
-    pseudo_only_anom_test_lbls[pseudo_only_anom_test_inds] = 1
+        pseudo_auc = roc_auc_score(pseudo_anom_test_lbls, test_scores)
 
-    pseudo_only_auc = roc_auc_score(pseudo_only_anom_test_lbls, test_scores[no_anom_test_inds])
+        #### pseudo_anom only scoring
+        no_anom_test_inds = np.where(test_labels != 1)[0]
+        no_anom_test_labels = deepcopy(test_labels[no_anom_test_inds])
+        pseudo_only_anom_test_inds = np.where(no_anom_test_labels == 2)[0]
+        pseudo_only_anom_test_lbls = np.zeros(len(no_anom_test_labels))
+        pseudo_only_anom_test_lbls[pseudo_only_anom_test_inds] = 1
 
-    #### anom w.r.t pseudo scoring
-    anom_wrt_psuedo_test_lbls_indxs = np.where(test_labels >= 1)[0]
-    scores_anom_and_pseudo = test_scores[anom_wrt_psuedo_test_lbls_indxs]
-    anom_and_pseudo_test_labels = test_labels[anom_wrt_psuedo_test_lbls_indxs]
-    anom_wrt_psuedo_ROC_lbls = np.zeros(len(anom_and_pseudo_test_labels))
-    anom_wrt_psuedo_ROC_lbls[np.where(anom_and_pseudo_test_labels == 1)[0]] = 1
+        pseudo_only_auc = roc_auc_score(pseudo_only_anom_test_lbls, test_scores[no_anom_test_inds])
 
-    anom_auc_wrt_psuedo = roc_auc_score(anom_wrt_psuedo_ROC_lbls, scores_anom_and_pseudo)
+        #### anom w.r.t pseudo scoring
+        anom_wrt_psuedo_test_lbls_indxs = np.where(test_labels >= 1)[0]
+        scores_anom_and_pseudo = test_scores[anom_wrt_psuedo_test_lbls_indxs]
+        anom_and_pseudo_test_labels = test_labels[anom_wrt_psuedo_test_lbls_indxs]
+        anom_wrt_psuedo_ROC_lbls = np.zeros(len(anom_and_pseudo_test_labels))
+        anom_wrt_psuedo_ROC_lbls[np.where(anom_and_pseudo_test_labels == 1)[0]] = 1
+
+        anom_auc_wrt_psuedo = roc_auc_score(anom_wrt_psuedo_ROC_lbls, scores_anom_and_pseudo)
 
     #### anom scoring
     anom_test_inds = np.where(test_labels == 1)[0]
@@ -74,8 +76,11 @@ def Red_PANDA_get_score(test_scores, test_labels):
     ### avg. consistency
     # todo: implement
 
-    scores_out = f"ROC-AUC: {anom_auc:.3f} || Pseudo Anom AUC {pseudo_auc:.3f} || " \
-                 f"|| Pseudo vs. Normal AUC {pseudo_only_auc:.3f} || Anom w.r.t Pseudo AUC {anom_auc_wrt_psuedo:.3F}"
+    if P.eval_psuedo:
+        scores_out = f"ROC-AUC: {anom_auc:.3f}"
+    else:
+        scores_out = f"ROC-AUC: {anom_auc:.3f} || Pseudo Anom AUC {pseudo_auc:.3f} || " \
+                     f"|| Pseudo vs. Normal AUC {pseudo_only_auc:.3f} || Anom w.r.t Pseudo AUC {anom_auc_wrt_psuedo:.3F}"
     print(scores_out)
 
     return anom_auc, pseudo_auc, anom_auc_wrt_psuedo, pseudo_only_auc
