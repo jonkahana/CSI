@@ -281,7 +281,7 @@ class Images_Data(Dataset):
 
 def get_npz_dataset(dataset, test_only=False, is_test=False, img_size=False):
 
-    if img_size != 32:
+    if img_size == 32:
         train_transform = transforms.Compose([
             transform_NumpytoPIL(),
             transforms.Resize((img_size, img_size)),
