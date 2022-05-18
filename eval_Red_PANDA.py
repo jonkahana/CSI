@@ -10,7 +10,8 @@ model_dir = f'unsup_simclr_CSI_{P.dataset}_{P.model}_shift_rotation_one_class_0'
 model_dir = os.path.join(exps_dir, P.dataset, model_dir)
 model_checkpoint_name = 'last.model'
 
-checkpoint = torch.load(os.path.join(model_dir, model_checkpoint_name))
+P.load_path = os.path.join(model_dir, model_checkpoint_name)
+checkpoint = torch.load(P.load_path)
 model.load_state_dict(checkpoint, strict=not P.no_strict)
 model.eval()
 
