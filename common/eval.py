@@ -56,19 +56,21 @@ if P.ood_dataset is None:
     elif P.dataset == 'imagenet':
         P.ood_dataset = ['cub', 'stanford_dogs', 'flowers102', 'places365', 'food_101', 'caltech_256', 'dtd', 'pets']
 
-ood_test_loader = dict()
-for ood in P.ood_dataset:
-    if ood == 'interp':
-        ood_test_loader[ood] = None  # dummy loader
-        continue
+if P.ood_dataset is not None:
 
-    if P.one_class_idx is not None:
-        ood_test_set = get_subclass_dataset(full_test_set, classes=cls_list[ood])
-        ood = f'one_class_{ood}'  # change save name
-    else:
-        ood_test_set = get_dataset(P, dataset=ood, test_only=True, image_size=P.image_size, eval=ood_eval)
+    ood_test_loader = dict()
+    for ood in P.ood_dataset:
+        if ood == 'interp':
+            ood_test_loader[ood] = None  # dummy loader
+            continue
 
-    ood_test_loader[ood] = DataLoader(ood_test_set, shuffle=False, batch_size=P.test_batch_size, **kwargs)
+        if P.one_class_idx is not None:
+            ood_test_set = get_subclass_dataset(full_test_set, classes=cls_list[ood])
+            ood = f'one_class_{ood}'  # change save name
+        else:
+            ood_test_set = get_dataset(P, dataset=ood, test_only=True, image_size=P.image_size, eval=ood_eval)
+
+        ood_test_loader[ood] = DataLoader(ood_test_set, shuffle=False, batch_size=P.test_batch_size, **kwargs)
 
 ### Initialize model ###
 
